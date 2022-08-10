@@ -10,7 +10,7 @@ const SearchPage = () => {
   return (
     <Container>
       <TitleContainer>
-        <h1>SearchX Demo</h1>
+        <h1>SearchX Netflix Titles</h1>
       </TitleContainer>
       <SearchbarContainer>
         <Autocomplete />

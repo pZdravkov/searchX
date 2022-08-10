@@ -1,7 +1,14 @@
 import styled, { css } from "styled-components";
+import { NavLink } from "react-router-dom";
 
 export const Container = styled.div`
   padding: 24px;
+`;
+
+export const TitleContainer = styled(NavLink)`
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
 `;
 
 export const SectionContainer = styled.div`
@@ -10,6 +17,14 @@ export const SectionContainer = styled.div`
   &:not(:last-of-type) {
     border-bottom: 1px solid ${({ theme }) => theme.colors.borderColor};
   }
+
+  ${({ flex }) =>
+    flex &&
+    css`
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    `};
 `;
 
 export const ResultContainer = styled.div`
@@ -18,9 +33,10 @@ export const ResultContainer = styled.div`
   }
 `;
 
-export const ResultTitle = styled.div`
+export const ResultTitle = styled.a`
   font-size: 20px;
   cursor: pointer;
+  text-decoration: none;
 `;
 
 export const ResultDescription = styled.div`
@@ -69,7 +85,7 @@ export const PaginationBtn = styled.div`
     `};
 `;
 
-export const PaginationNumber = styled.a`
+export const PaginationNumber = styled(NavLink)`
   margin: 0px 6px;
   text-decoration: none;
   color: black;
@@ -77,6 +93,6 @@ export const PaginationNumber = styled.a`
   ${({ selected }) =>
     selected &&
     css`
-      color: red;
+      color: purple;
     `};
 `;

@@ -2,11 +2,17 @@ import Cookies from "universal-cookie";
 import { SAVED_SEARCHES_COOKIE } from "utils/constants";
 import data from "./data.json";
 
-// I prefer to do these as classes exposing them as dependencies.
-// Tends to be a good pattern when using redux (sagas, epics etc.
+// This is some random API to retrieve and store data
+// Usually I do these as class dependencies which works nicely with Redux
+
+// The text search capabilities are very basic as I did no have time to improve further,
+// but its doing the job so so
+
 const useApi = () => {
   const cookies = new Cookies();
 
+  // Returns a combination of saved and new searches to mimic the desired behaviour
+  // of the autocomplete
   function quickSearch({ query }) {
     const savedSearches = cookies.get(SAVED_SEARCHES_COOKIE) ?? [];
 
@@ -31,9 +37,10 @@ const useApi = () => {
         isSaved: true,
       })),
       ...matchingNewSearches,
-    ];
+    ].slice(0, 10);
   }
 
+  // Strict fetch with pagination and querying
   function fetchResults({ query = "", pageSize = 10, pageNo = 1 }) {
     let results = [];
 
@@ -68,6 +75,7 @@ const useApi = () => {
     return { results, metadata };
   }
 
+  // Some utilty functions to work with cookies, usually it would do it as a separate service or hooks
   function saveSearch(keyword) {
     const keywords = cookies.get(SAVED_SEARCHES_COOKIE) ?? [];
     cookies.set(

@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import useApi from "services/dummyApi";
 
@@ -6,6 +6,7 @@ import Autocomplete from "components/Autocomplete";
 
 import {
   Container,
+  TitleContainer,
   SectionContainer,
   ResultContainer,
   ResultDescription,
@@ -32,8 +33,9 @@ const ResultsPage = () => {
 
   return (
     <Container>
-      <SectionContainer>
+      <SectionContainer flex>
         <Autocomplete defaultQuery={query} />
+        <TitleContainer to="/">Go Back</TitleContainer>
       </SectionContainer>
       <SectionContainer>
         <MetadataContainer>
@@ -43,7 +45,12 @@ const ResultsPage = () => {
         </MetadataContainer>
         {results.map((res) => (
           <ResultContainer key={res.show_id} isSaved={res.isSaved}>
-            <ResultTitle>{res.title}</ResultTitle>
+            <ResultTitle
+              href={`https://www.google.com/search?q=${res.title}`}
+              target="_blank"
+            >
+              {res.title}
+            </ResultTitle>
             <ResultDescription>{res.description}</ResultDescription>
           </ResultContainer>
         ))}
@@ -56,7 +63,7 @@ const ResultsPage = () => {
           {Array.apply(null, Array(totalPages)).map((_, i) => (
             <PaginationNumber
               key={`item_${i}`}
-              href={`/results?q=${query}&pageNo=${i + 1}&pageSize=${pageSize}`}
+              to={`/results?q=${query}&pageNo=${i + 1}&pageSize=${pageSize}`}
               selected={parseInt(pageNo) === i + 1}
             >
               {i + 1}
@@ -72,6 +79,7 @@ const ResultsPage = () => {
   );
 };
 
+// Simple navigation and data fetching here
 const usePaginatedResults = () => {
   let [searchParams, setSearchParams] = useSearchParams();
 
@@ -99,6 +107,10 @@ const usePaginatedResults = () => {
     const prevPage = parseInt(pageNo) - 1;
     setSearchParams({ q: query, pageNo: prevPage, pageSize });
   }, [query, pageNo, pageSize, setSearchParams]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pageNo]);
 
   return {
     results,

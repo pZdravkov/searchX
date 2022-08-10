@@ -30,6 +30,8 @@ export const StyledIcon = styled.div`
   align-items: center;
   justify-content: center;
 
+  color: rgba(0, 0, 0, 0.6) !important;
+
   padding: 8px;
 
   ${({ clickable }) =>
@@ -97,6 +99,12 @@ export const OptionTitle = styled.div`
   overflow: hidden;
   text-overflow: clip;
   margin-right: 24px;
+
+  ${({ isSaved }) =>
+    isSaved &&
+    css`
+      color: purple;
+    `};
 `;
 
 export const OptionActions = styled.div`
